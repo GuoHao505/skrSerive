@@ -13,6 +13,7 @@ const storeProduct = require("./controller/store/product");
 
 // 引入商品的路由模块
 const shop = require("./controller/shop/index");
+const brand = require("./controller/brand/index");
 
 // 引入的是评论路由模块
 // const rating = require('./controller/rating/rating');
@@ -91,6 +92,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/store", storeProduct);
 app.use("/shop", shop);
+app.use("/brand", brand);
 // app.use('/rating', rating)
 // app.use('/store',storeUser)
 // app.use('/store',sessionMessage)
