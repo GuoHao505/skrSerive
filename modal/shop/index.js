@@ -21,9 +21,54 @@ const upDateShop = (sql, param) => {
       });
   });
 };
+//获取商品销量
+const getShopListSales = (sql, param) => {
+  return new Promise((resolve, reject) => {
+    query(sql,param)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+//获取商品分类
+const getShopCategory = (sql) => {
+  return new Promise((resolve, reject) => {
+    query(sql)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 //获取商品列表
 const getShopList = (sql, { currentPage, pageSize }) => {
-  
   return new Promise((resolve, reject) => {
     query(sql)
       .then((res) => {
@@ -135,4 +180,6 @@ module.exports = {
   addShop,
   upDateShop,
   deleteShop,
+  getShopListSales,
+  getShopCategory
 };
