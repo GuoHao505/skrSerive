@@ -24,7 +24,7 @@ const upDateShop = (sql, param) => {
 //获取商品销量
 const getShopListSales = (sql, param) => {
   return new Promise((resolve, reject) => {
-    query(sql,param)
+    query(sql, param)
       .then((res) => {
         if (res.length > 0) {
           resolve({
@@ -68,15 +68,12 @@ const getShopCategory = (sql) => {
   });
 };
 //获取商品列表
-const getShopList = (sql, { currentPage, pageSize }) => {
+const getShopList = (sql, { currentPage = 1, pageSize = 10 }) => {
   return new Promise((resolve, reject) => {
     query(sql)
       .then((res) => {
         if (res.length > 0) {
-          const arr = res.splice(
-            currentPage - 1 * pageSize,
-            pageSize
-          );
+          const arr = res.splice((currentPage - 1) * pageSize, pageSize);
           resolve({
             code: 200,
             message: "获取成功",
@@ -181,5 +178,5 @@ module.exports = {
   upDateShop,
   deleteShop,
   getShopListSales,
-  getShopCategory
+  getShopCategory,
 };
