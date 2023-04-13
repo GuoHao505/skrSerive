@@ -47,16 +47,16 @@ router.post("/deleteStore", (req, res) => {
 });
 //更新店铺信息
 router.post("/upDateStore", (req, res) => {
-  let { name, address, avatar, tel, region, id } = req.body;
-  if (!(name && address && avatar && tel && region && id)) {
+  let { name, address, avatar, tel, region,introduce, id } = req.body;
+  if (!(name && address && avatar && tel && region && id && introduce)) {
     res.json({
       code: 403,
       message: "入参不符",
     });
     return;
   }
-  let sql = `update t_store set name=?, address=?,avatar=?,tel=?, region=?,last_update_time=? where id=?;`;
-  let params = [name, address, avatar, tel, region, Date.now(), id];
+  let sql = `update t_store set name=?, address=?,avatar=?,tel=?, region=?,introduce=?,last_update_time=? where id=?;`;
+  let params = [name, address, avatar, tel, region, introduce, Date.now(), id];
   upDateStore(sql, params)
     .then((result) => {
       res.json(result);
@@ -71,8 +71,8 @@ router.post("/upDateStore", (req, res) => {
 });
 //添加店铺
 router.post("/addStore", (req, res) => {
-  let { name, address, avatar, tel, region, password } = req.body;
-  if (!(name && address && avatar && tel && region)) {
+  let { name, address, avatar, tel, region, password, desc } = req.body;
+  if (!(name && address && avatar && tel && region && desc && password)) {
     res.json({
       code: 403,
       message: "入参不符",
@@ -80,8 +80,17 @@ router.post("/addStore", (req, res) => {
     return;
   }
   let sql =
-    "insert into t_store (name, address, avatar, tel, region,password,create_time) values(?,?,?,?,?,?,?)";
-  addStore(sql, [name, address, avatar, tel, region, password, Date.now()])
+    "insert into t_store (name, address, avatar, tel, region,password,desc,create_time) values(?,?,?,?,?,?,?,?)";
+  addStore(sql, [
+    name,
+    address,
+    avatar,
+    tel,
+    region,
+    password,
+    desc,
+    Date.now(),
+  ])
     .then((result) => {
       res.json(result);
     })
@@ -93,6 +102,5 @@ router.post("/addStore", (req, res) => {
       });
     });
 });
-
 
 module.exports = router;
