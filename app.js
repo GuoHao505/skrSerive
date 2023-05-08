@@ -51,7 +51,6 @@ const userUser = require("./controller/user/user");
 // const msgSend = require('./controller/msgSend/index')
 // const type = require("./controller/type/type")
 // const upload = require("./controller/upload/index")
-app.use(express.static("public"));
 
 app.use((req, res, next) => {
   let token = req.headers["authorization"];
