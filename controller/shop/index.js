@@ -5,13 +5,78 @@ const {
   addShop,
   upDateShop,
   deleteShop,
-  getShopListSales,
+  getShopTotal,
   getShopCategory,
+  getChartsList,
+  getSalesRanking,
+  getSalesProportion,
+  getPaysChartsList,
 } = require("../../modal/shop/index");
+
+//
+router.post("/getPaysChartsList", (res) => {
+  getPaysChartsList(sql)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        code: 501,
+        message: "服务端错误",
+      });
+    });
+});
+//
+router.post("/getSalesProportion", (req,res) => {
+  let sql = `SELECT title as name,SUM(sales) as value  FROM t_spu GROUP BY spg_id`;
+  getSalesProportion(sql)
+    .then((result) => {
+      console.log(res);
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        code: 501,
+        message: "服务端错误",
+      });
+    });
+});
+//获取排名前7
+router.post("/getRanking", (req, res) => {
+  let sql = `SELECT title FROM t_spu order by sales desc limit 7`;
+  getSalesRanking(sql)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        code: 501,
+        message: "服务端错误",
+      });
+    });
+});
+//
+router.post("/getChartsList", (req, res) => {
+  let sql = `SELECT date_format(create_time, '%Y-%m') create_time,SUM(sales) as sales,SUM(views) as views,SUM(pays) as pays,SUM(stocks) as stocks FROM t_spu GROUP BY	date_format(create_time, '%Y-%m')`;
+  getChartsList(sql)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        code: 501,
+        message: "服务端错误",
+      });
+    });
+});
 //获取商品列表
 router.post("/getShopList", (req, res) => {
   const { currentPage, pageSize } = req.body;
-  let sql = `select * from t_spu ORDER BY create_time DESC`;
+  let sql = `select * from t_spu`;
   getShopList(sql, { currentPage, pageSize })
     .then((result) => {
       res.json(result);
@@ -24,11 +89,10 @@ router.post("/getShopList", (req, res) => {
       });
     });
 });
-//获取商品销量
-router.post("/getShopSales", (req, res) => {
-  const { category_id } = req.body;
-  let sql = `select sale,title from t_spu where category_id=?  ORDER BY create_time DESC`;
-  getShopListSales(sql, [category_id])
+//获取商品
+router.post("/getShopTotal", (req, res) => {
+  let sql = `select SUM(sales) as salesTotal,SUM(pays) as paysTotal,SUM(views) as viewsTotal,SUM(stocks) as stocksTotal from t_spu `;
+  getShopTotal(sql)
     .then((result) => {
       res.json(result);
     })

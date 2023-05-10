@@ -1,4 +1,96 @@
 const query = require("../db");
+const moment = require("moment");
+//
+const getPaysChartsList = (sql) => {
+  return new Promise((resolve, reject) => {
+    query(sql)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+//
+const getSalesProportion = (sql) => {
+  return new Promise((resolve, reject) => {
+    query(sql)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+const getSalesRanking = (sql) => {
+  return new Promise((resolve, reject) => {
+    query(sql)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+//获取商品分类
+const getChartsList = (sql) => {
+  return new Promise((resolve, reject) => {
+    query(sql)
+      .then((res) => {
+        if (res.length > 0) {
+          resolve({
+            code: 200,
+            message: "获取成功",
+            data: res,
+          });
+          return;
+        }
+        resolve({
+          code: 402,
+          message: "获取失败",
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 //更新商品
 const upDateShop = (sql, param) => {
   return new Promise((resolve, reject) => {
@@ -21,8 +113,8 @@ const upDateShop = (sql, param) => {
       });
   });
 };
-//获取商品销量
-const getShopListSales = (sql, param) => {
+//获取商品
+const getShopTotal = (sql, param) => {
   return new Promise((resolve, reject) => {
     query(sql, param)
       .then((res) => {
@@ -30,7 +122,7 @@ const getShopListSales = (sql, param) => {
           resolve({
             code: 200,
             message: "获取成功",
-            data: res,
+            data: res[0],
           });
           return;
         }
@@ -177,6 +269,10 @@ module.exports = {
   addShop,
   upDateShop,
   deleteShop,
-  getShopListSales,
+  getShopTotal,
   getShopCategory,
+  getChartsList,
+  getSalesRanking,
+  getSalesProportion,
+  getPaysChartsList
 };
